@@ -1,11 +1,11 @@
-<!-- Main App Layout file used by LightFragment-->
+<!--Main App Layout file used by LightFragment-->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="fill_parent"
-             android:layout_height="match_parent"
-             tools:context="com.chaspe.simplelight.LightFragment"
-             >
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="fill_parent"
+     android:layout_height="match_parent"
+     tools:context="com.chaspe.simplelight.LightFragment"
+     >
 
     <!--Toolbar-->
     <android.support.v7.widget.Toolbar
@@ -20,29 +20,32 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
-        <!-- Exit Button -->
-        <Button
-            android:id="@+id/exit"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/abc_ic_clear_mtrl_alpha"
-            android:gravity="center"
-            android:backgroundTint="@color/t1"
-            />
-        <!-- App Title-->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/app_name"
-            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
-            android:gravity="center_vertical"
-            android:textColor="@color/t1"
-            />
+            android:orientation="horizontal"
+            >
+
+            <!--Exit Button -->
+            <Button
+                android:id="@+id/exit"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/abc_ic_clear_mtrl_alpha"
+                android:gravity="center"
+                android:backgroundTint="@color/t1"
+                />
+
+            <!--App Title-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/app_name"
+                android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+                android:gravity="center_vertical"
+                android:textColor="@color/t1"
+                />
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
-    <!-- End Toolbar-->
+    <!--End Toolbar-->
 
     <!--Light Button Area -->
     <FrameLayout
@@ -74,7 +77,8 @@
             android:gravity="center"
             android:button="@android:color/transparent"
             />
-        <!--Button Logo-->
+
+        <!--Light Button Logo-->
         <ImageView
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/logo"
@@ -117,7 +121,7 @@
         android:layout_alignParentBottom="true"
         >
 
-        <!-- Frequency Seek Bar-->
+        <!--Frequency Seek Bar-->
         <SeekBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
