@@ -1,3 +1,5 @@
+<!-- Main App Layout file used by LightFragment-->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="fill_parent"
@@ -5,7 +7,7 @@
              tools:context="com.chaspe.simplelight.LightFragment"
              >
 
-
+    <!--Toolbar-->
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_height="?attr/actionBarSize"
@@ -15,11 +17,11 @@
         android:layout_alignParentTop="true"
         >
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
+        <!-- Exit Button -->
         <Button
             android:id="@+id/exit"
             android:layout_width="50dp"
@@ -28,6 +30,7 @@
             android:gravity="center"
             android:backgroundTint="@color/t1"
             />
+        <!-- App Title-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -39,16 +42,18 @@
             />
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
+    <!-- End Toolbar-->
 
+    <!--Light Button Area -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/t1"
         android:layout_below="@+id/toolbar"
         android:layout_above="@+id/bottombar"
-
         >
 
+        <!--Light Button Shadow-->
         <ImageView
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/button_shadow"
@@ -58,6 +63,7 @@
             android:layout_gravity="center"
             />
 
+        <!--Light Button-->
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -67,8 +73,8 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:button="@android:color/transparent"
-
             />
+        <!--Button Logo-->
         <ImageView
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/logo"
@@ -77,6 +83,8 @@
             android:src="@drawable/lightlogo"
             android:layout_gravity="center"
             />
+
+        <!--Toolbar Shadow-->
         <ImageView
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/shadow"
@@ -85,6 +93,7 @@
             android:src="@drawable/chshadow"
             android:layout_gravity="top"
             />
+        <!--Bottom Bar Shadow-->
         <ImageView
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/shadowup"
@@ -95,7 +104,9 @@
             android:layout_gravity="bottom"
             />
     </FrameLayout>
+    <!--End Light Button Area-->
 
+    <!--Bottom Bar-->
     <LinearLayout
         android:id="@+id/bottombar"
         android:layout_width="match_parent"
@@ -106,6 +117,7 @@
         android:layout_alignParentBottom="true"
         >
 
+        <!-- Frequency Seek Bar-->
         <SeekBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -116,6 +128,7 @@
             android:thumb="@drawable/chcontrol"
             />
 
+        <!--Strobe Check Box-->
         <CheckBox
             android:id="@+id/checkbox"
             android:layout_width="wrap_content"
@@ -124,9 +137,7 @@
             android:layout_marginLeft="20dp"
             android:textColor="@color/t2"
             android:button="@drawable/chcheck_box"
-
             />
-
     </LinearLayout>
-
+    <!--End Bottom Bar-->
 </RelativeLayout>
