@@ -31,7 +31,6 @@ public class LightFragment extends Fragment {
     private Intent mIntent;                                                                         // Template LightService Intent that extras can be added to
 
     private CheckBox mLightButton;                                                                  // UI Elements
-    private Button mExitButton;
     private SeekBar mBar;
     private CheckBox mBox;
 
@@ -59,8 +58,8 @@ public class LightFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_light, container, false);                       // Inflate the layout for this fragment
 
-        mExitButton = (Button) v.findViewById(R.id.exit);                                           // Set up on Click Listener for Exit Button
-        mExitButton.setOnClickListener(new View.OnClickListener() {
+        Button exitButton = (Button) v.findViewById(R.id.exit);                                           // Set up on Click Listener for Exit Button
+        exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LightActivity.ACTION_CLOSE);                             // Broadcast Close intent
