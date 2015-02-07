@@ -9,7 +9,6 @@ import android.hardware.Camera;
  */
 
 class LightControl implements Runnable {
-    public static final String TAG = "LightControl";
 
     int frequency;                                                                                  // Sets frequency of flashes in Strobe setting. 0 is a normal light
 
