@@ -55,6 +55,14 @@ public class LightService extends Service {
 
                 onOff();
             }
+
+            if(!mOn){
+                if (t != null) {
+                    t.interrupt();
+                    t = null;
+                }
+                stopSelf();
+            }
         }
 
         return START_STICKY;
