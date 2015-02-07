@@ -1,9 +1,8 @@
+<!--Defines App Themes-->
 <resources>
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
-        <!-- Customize your theme here. -->
-
 
         <!-- colorPrimary is used for the default action bar background -->
         <item name="colorPrimary">@color/p500</item>
@@ -15,15 +14,13 @@
          which is used to tint widgets -->
         <item name="colorAccent">@color/a400</item>
 
+        <!--Text Color-->
         <item name="android:textColor">@color/t1</item>
         <item name="android:textColorSecondary">@color/t2</item>
-
     </style>
 
+    <!--Toggleable Light Button-->
     <style name="LightButton">
-
         <item name="android:background">@drawable/button_shape</item>
     </style>
-
-    <!-- You can also set colorControlNormal, colorControlActi  colorControlHighlight, and colorSwitchThumbNormal. -->
 </resources>
