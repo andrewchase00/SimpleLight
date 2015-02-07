@@ -1,7 +1,5 @@
 package com.chaspe.simplelight;
 
-import android.app.IntentService;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -9,54 +7,55 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.hardware.Camera;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-import android.util.Log;
 
 /**
- * Created by Bears on 2/3/2015.
+                                                                                                    * Created by Andrew Chase on 2/3/2015.
+                                                                                                    * Service used to start LightControl Thread and set LightControl
+                                                                                                    * parameters. Also, takes Intents to start/stop and update parameters,
+                                                                                                    * and sets up a Notification to let the user know the service is running
+                                                                                                    * and open the app by tapping the notification or end the service by
+                                                                                                    * dismissing the notification.
  */
 public class LightService extends Service {
-    public static final String TAG = "LightService";
 
-    private final IBinder mBinder = new LightBinder();
-    private FirstReceiver firstReceiver;
+    private final IBinder mBinder = new LightBinder();                                              // Binder used to initialize LightFragment
 
-    public boolean mOn;
+    private FirstReceiver firstReceiver;                                                            // Broadcast Receiver used to end service on Close Intent
+
+    private NotificationManager mNotificationManager;                                               // Notification Manager used to create Notification
+
+    public boolean mOn;                                                                             // Light parameters
     public boolean mStrobe;
-    public boolean wasOn;
-    private NotificationManager mNotificationManager;
-
-
     public int mFrequency;
-    LightControl lc;
-    Thread t;
+
+    LightControl lc;                                                                                // LightControl instance used to set light parameters before starting thread
+    Thread t;                                                                                       // Thread to start LightControl in
 
     public int onStartCommand (Intent intent, int flags, int startId) {
-        if(intent != null) {
+
+        if(intent != null) {                                                                        // Get light parameters from Intent Extras
             if (intent.hasExtra(LightFragment.EXTRA_STROBE)) {
                 mStrobe = intent.getBooleanExtra(LightFragment.EXTRA_STROBE, false);
             }
             if (intent.hasExtra(LightFragment.EXTRA_FREQUENCY)) {
                 mFrequency = intent.getIntExtra(LightFragment.EXTRA_FREQUENCY, 0);
             }
-
             if (mStrobe) {
                 lc.frequency = mFrequency;
             } else {
                 lc.frequency = 0;
             }
 
-            boolean change = intent.getBooleanExtra(LightFragment.EXTRA_CHANGE, true);
+            boolean change = intent.getBooleanExtra(LightFragment.EXTRA_CHANGE, true);              // Turn light on/off if change Extra is true
             if (change) {
-
                 onOff();
             }
 
-            if(!mOn){
+            if(!mOn){                                                                               // End Service if light is off
                 if (t != null) {
                     t.interrupt();
                     t = null;
@@ -65,21 +64,16 @@ public class LightService extends Service {
             }
         }
 
-        return START_STICKY;
+        return START_STICKY;                                                                        // Set Service as Sticky
     }
 
     @Override
-    public IBinder onBind(Intent intent) {
-        wasOn = mOn;
+    public IBinder onBind(Intent intent) {                                                          // Return Binder for LightFragment Initialization
         return mBinder;
     }
 
     @Override
-    public boolean onUnbind(Intent intent) {
-        // All clients have unbound with unbindService()
-
-            //stopSelf();
-
+    public boolean onUnbind(Intent intent) {                                                        // Default on Unbind function
         return false;
     }
 
@@ -87,58 +81,40 @@ public class LightService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d(TAG, "Light service started");
 
-        NotificationCompat.Builder mBuilder =
+        NotificationCompat.Builder mBuilder =                                                       // Create Notification builder with desired settings
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.lightlogo)
                         .setContentTitle("Simple Light")
                         .setContentText("Tap to open");
-        // Creates an explicit intent for an Activity in your app
-        Intent resultIntent = new Intent(this, LightActivity.class);
 
-        // The stack builder object will contain an artificial back stack for the
-// started Activity.
-// This ensures that navigating backward from the Activity leads out of
-// your application to the Home screen.
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-// Adds the back stack for the Intent (but not the Intent itself)
+        Intent resultIntent = new Intent(this, LightActivity.class);                                // Create intent to open LightActivity (main app)
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);                              // Create stack to ensure proper back button function on exiting app
         stackBuilder.addParentStack(LightActivity.class);
-// Adds the Intent that starts the Activity to the top of the stack
         stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent =
+        PendingIntent resultPendingIntent =                                                         // Set Pending Intent to open LightActivity when Notification is tapped
                 stackBuilder.getPendingIntent(
                         0,
                         PendingIntent.FLAG_UPDATE_CURRENT
                 );
         mBuilder.setContentIntent(resultPendingIntent);
 
-        Intent deleteIntent = new Intent(LightActivity.ACTION_CLOSE);
-        PendingIntent deletePendingIntent = PendingIntent.getBroadcast(this, 0, deleteIntent, 0);
-
-        /*Intent deleteIntent = new Intent();
-        deleteIntent.setAction("com.chaspe.simplelight.LightService");
-        deleteIntent.putExtra(LightFragment.EXTRA_CHANGE, true);
-        //intent.putExtra(LightFragment.EXTRA_STROBE, strobe);
-        //intent.putExtra(LightFragment.EXTRA_FREQUENCY, frequency);
-        PendingIntent deletePendingIntent = PendingIntent.getService(this, 0, deleteIntent, 0);*/
-
+        Intent deleteIntent = new Intent(LightActivity.ACTION_CLOSE);                               // Set Pending Intent to close LightActivity and LightService when
+        PendingIntent deletePendingIntent = PendingIntent.getBroadcast(this, 0, deleteIntent, 0);   // Notification is dismissed
         mBuilder.setDeleteIntent(deletePendingIntent);
 
-        mNotificationManager =
+        mNotificationManager =                                                                      // Get Notification Manager and place Notification
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-// mId allows you to update the notification later on.
-
         mNotificationManager.notify(69, mBuilder.build());
 
-
-
-        mOn = false;
+        mOn = false;                                                                                // Initialize light parameters
         mStrobe = false;
         mFrequency = 0;
-        lc = new LightControl();
 
-        IntentFilter filter = new IntentFilter(LightActivity.ACTION_CLOSE);
+        lc = new LightControl();                                                                    // Initialize LightControl instance
+
+        IntentFilter filter = new IntentFilter(LightActivity.ACTION_CLOSE);                         // Set up Broadcast Receiver to receive Close Intent
         firstReceiver = new FirstReceiver();
         registerReceiver(firstReceiver, filter);
     }
@@ -146,70 +122,49 @@ public class LightService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "Service Ended");
-        if (t != null) {
+
+        if (t != null) {                                                                            // Stop LightControl Thread
             lc.stopRunning = true;
             t = null;
         }
-        unregisterReceiver(firstReceiver);
-        mNotificationManager.cancelAll();
+
+        unregisterReceiver(firstReceiver);                                                          // Destroy Broadcast Receiver
+
+        mNotificationManager.cancelAll();                                                           // Remove Notification
     }
 
-    public void onOff(){
+    public void onOff(){                                                                            // Switches light on or off depending on current state
         if (!mOn) {
             mOn = true;
-            if (t != null) {
+            if (t != null) {                                                                        // Stop existing LightControl Thread
                 t.interrupt();
                 t = null;
             }
-
-            t = new Thread(lc);
+            t = new Thread(lc);                                                                     // Start new LightControl Thread
             t.start();
         }else if(mOn){
             mOn = false;
-            if (t != null) {
+            if (t != null) {                                                                        // End LightControl Thread
                 t.interrupt();
                 t = null;
             }
-            stopSelf();
+            stopSelf();                                                                             // End LightService
         }
-
-        //mCamera.setParameters(mParameters);
     }
 
-    public boolean isOn(){
-        return mOn;
-    }
-
-
-
-
-
-    /**
-     * Class used for the client Binder.  Because we know this service always
-     * runs in the same process as its clients, we don't need to deal with IPC.
-     */
-    public class LightBinder extends Binder {
+    public class LightBinder extends Binder {                                                       // Custom Binder Definition
         LightService getService() {
-            // Return this instance of LocalService so clients can call public methods
-            return LightService.this;
+            return LightService.this;                                                               // Return this instance of LocalService so LightFragment can extract parameters
         }
     }
 
-    /** method for clients */
-    public int getFrequency() {
-            return mFrequency;
-        }
-
-    class FirstReceiver extends BroadcastReceiver {
+    class FirstReceiver extends BroadcastReceiver {                                                 // Broadcast Receiver Definition
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.e("ServiceReceiver", "FirstReceiver");
             if (intent.getAction().equals(LightActivity.ACTION_CLOSE)) {
-                mNotificationManager.cancelAll();
-                stopSelf();
+                mNotificationManager.cancelAll();                                                   // Remove Notification
+                stopSelf();                                                                         // End LightService
             }
         }
     }
-
 }
