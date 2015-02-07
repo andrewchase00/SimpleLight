@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="oval" >
 
-
-
-<size
- android:width="250dp"
- android:height="250dp"
-    />
-<solid
-android:color="@color/buttonoff" />
-
+<!--Grey Circle used for off state of Light Button-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval"
+    >
+    <size
+        android:width="250dp"
+        android:height="250dp"
+        />
+    <solid
+        android:color="@color/buttonoff"
+        />
 </shape>
 

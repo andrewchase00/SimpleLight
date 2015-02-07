@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--Toggleable Button Drawable used for Light Button-->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/buttonoffcircle"
-          android:state_checked="false" />
-    <item android:drawable="@drawable/buttononcircle"
-          android:state_checked="true" />
+    <item
+        android:drawable="@drawable/buttonoffcircle"
+        android:state_checked="false"
+        />
+    <item
+        android:drawable="@drawable/buttononcircle"
+        android:state_checked="true"
+        />
 </selector>
