@@ -44,7 +44,7 @@ public class LightFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
 
-        mIntent = new Intent();                                                                     // Initializing template LightService Intent
+        mIntent = new Intent(getActivity().getApplicationContext(), LightService.class);                                                                     // Initializing template LightService Intent
         mIntent.setAction("com.chaspe.simplelight.LightService");
 
         getActivity().getApplicationContext().bindService(mIntent,                                  // Bind Light Service to initialize light parameters
